@@ -1,17 +1,11 @@
 # basic-hash.py
 import math, sys
 
-# first n primes
-def get_primes(n):
-    numbers = set(range(n, 1, -1))
-    primes = []
-    while numbers:
-        p = numbers.pop()
-        primes.append(p)
-        numbers.difference_update(set(range(p*2, n+1, p)))
-    return primes
-
-constants = []
+# first 64 primes
+constants = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 
+			59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 
+			137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 
+			227, 229, 233, 239, 241, 251, 257, 263, 269, 271, 277, 281, 283, 293, 307, 311]
 
 # binary shift values (random)
 shifts = [4, 15, 16, 8, 1, 12, 10, 3, 6, 11, 5, 13, 2, 14, 7, 9,
@@ -28,22 +22,19 @@ e0 = 7
 f0 = 16
 
 # message to hash
-f = open(sys.argv[1], 'r')
+f = open(sys.argv[1], 'rb')
 msg = f.read()
 
 b_msg = list(x.encode('hex') for x in msg)
 
 # last two bytes of message length value, used to pad
 b_length = ''.join(list(bytes(len(b_msg)))[-2:])
-print b_length, 'len check'
+print b_length, 'length check byte'
 
 # pad byte array until % 8 == 0
 while len(b_msg) % 8 != 0:
 	b_msg.append(b_length)
 print len(b_msg), 'bytes'
-
-# generate required primes
-constants = get_primes(len(b_msg))
 
 # split message into chunks of 64 bits (8 bytes)
 msg_chunks = []
@@ -80,7 +71,7 @@ def cycle(msg_64, const, a2, b2, c2, d2, e2, f2, shift):
 	a0 = f2
 
 for i in range(len(msg_chunks)):
-	cycle(msg_chunks[i], constants[i], a0, b0, c0, d0, e0, f0, shifts[i%64])
+	cycle(msg_chunks[i], constants[i%64], a0, b0, c0, d0, e0, f0, shifts[i%64])
 
 print hex(a0), hex(b0), hex(c0), hex(d0), hex(e0), hex(f0)
 print "%x" % (a0 + b0 + c0 + d0 + e0 + f0)

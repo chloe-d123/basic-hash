@@ -10,7 +10,7 @@ The data to encode is represented in an array of bytes, and padded until the len
 It is padded with the last two bytes of the value of its length.
 
 The bytearray is then split into chunks of 8 bytes/64 bits. 
-The first n primes are used as constants, and the variables a..f are random values.
+The first 64 primes are used as constants, and the variables a..f are random values.
 
 The 'F' function is ((b ^ c) | (d ^ e)) & f
 
