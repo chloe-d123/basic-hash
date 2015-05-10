@@ -57,7 +57,7 @@ def mod_add(a3, comb, const, chunk, f3):
 	result = (a3 + comb) % pow(2, 32)
 	result = (result + chunk) % pow(2, 32)
 	result = (result + const) % pow(2, 32)
-    	result = (result + f3) % pow(2, 32)
+    result = (result + f3) % pow(2, 32)
 
 	return result
 
@@ -75,5 +75,5 @@ def cycle(msg_64, const, a2, b2, c2, d2, e2, f2, shift):
 for i in range(len(msg_chunks)):
 	cycle(msg_chunks[i], constants[i], a0, b0, c0, d0, e0, f0, shifts[i])
 
-print hex(a0), hex(b0), hex(c0), hex(d0), hex(e0), hex(f0)
+print a0, b0, c0, d0, e0, f0
 print "%x" % (a0 + b0 + c0 + d0 + e0 + f0)
