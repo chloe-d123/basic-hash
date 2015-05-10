@@ -2,7 +2,7 @@
 
 My attempt at a hash algorithm, in python. Loosely based on MD5.
 
-Currently nothing larger than 512 bytes can be hashed, and the 'avalanche' effect is very small.
+Currently ~~nothing larger than 512 bytes can be hashed~~, and the 'avalanche' effect is very small.
 
 The algorithm looks something like this:
 ```
@@ -18,4 +18,7 @@ b is set to the modulo 2^32 addition of a, F, the corresponding constant, a 64 b
 
 Then set c = b, d = c, e = d, f = e, and a = f.
 
-After all primes are used (this is the limiting factor) a..f are summed and returned as a hex number - this is the hash.
+After as many iterations as the data is long have occured, a..f are summed and returned as a hex number - this is the hash.
+```
+
+Usage: python basic-hash.py <file to hash>
