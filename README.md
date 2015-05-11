@@ -21,4 +21,4 @@ Then set c = b, d = c, e = d, f = e, and a = f.
 After as many iterations as the data is long have occured, a..f are summed and returned as a hex number - this is the hash.
 ```
 
-Usage: python basic-hash.py <file to hash>
+Usage: python basic-hash.py [file to hash]
