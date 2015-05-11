@@ -31,8 +31,8 @@ b_msg = list(x.encode('hex') for x in msg)
 b_length = ''.join(list(bytes(len(b_msg)))[-2:])
 print b_length, 'length check byte'
 
-# pad byte array until % 8 == 0
-while len(b_msg) % 8 != 0:
+# pad byte array until % 64 == 0
+while len(b_msg) % 64 != 0:
 	b_msg.append(b_length)
 print len(b_msg), 'bytes'
 
