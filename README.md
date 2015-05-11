@@ -14,7 +14,7 @@ The first 64 primes are used as constants, and the variables a..f are random val
 
 The 'F' function is ((b ^ c) | (d ^ e)) & f
 
-b is set to the modulo 2^32 addition of a, F, the corresponding constant, a 64 bit chunk of the message, and f. This value is shifted left, by the corresponding number of bits in the table.
+b is set to the modulo 2^48 addition of a, F, the corresponding constant, a 64 bit chunk of the message, and f. This value is shifted left, by the corresponding number of bits in the table.
 
 Then set c = b, d = c, e = d, f = e, and a = f.
 
