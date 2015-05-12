@@ -6,7 +6,8 @@ Currently ~~nothing larger than 512 bytes can be hashed~~, and the 'avalanche' e
 
 The algorithm looks something like this:
 ```
-The data to encode is represented in an array of bytes, and padded until the length is divisible by 8.
+The data to encode is represented in an array of bytes, and padded until the length is 
+divisible by 64.
 It is padded with the last two bytes of the value of its length.
 
 The bytearray is then split into chunks of 8 bytes/64 bits. 
