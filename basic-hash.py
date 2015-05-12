@@ -41,7 +41,7 @@ msg_chunks = []
 temp = []
 for i in range(len(b_msg)):
 	temp.append(b_msg[i])
-	if i % 8 == 7:						# 7 works. I don't know why.
+	if i % 4 == 3:						# 7 works. I don't know why.
 		msg_chunks.append(temp)
 		temp = []
 print len(msg_chunks), 'chunks'
@@ -63,10 +63,10 @@ def combination(iteration, b1, c1, d1, e1, f1):
 
 # final modulo addition. I don't know enough about modular arithmetic to say why 2^48 gives a 64-bit hash - but it does.
 def mod_add(a3, comb, const, chunk, f3):
-	result = (a3 + comb) % pow(2, 48)
-	result = (result + chunk) % pow(2, 48)
-	result = (result + const) % pow(2, 48)
-    	result = (result + f3) % pow(2, 48)
+	result = (a3 + comb) % pow(2, 64)
+	result = (result + chunk) % pow(2, 64)
+	result = (result + const) % pow(2, 64)
+    	result = (result + f3) % pow(2, 64)
 
 	return result
 
