@@ -12,7 +12,10 @@ It is padded with the last two bytes of the value of its length.
 The bytearray is then split into chunks of 8 bytes/64 bits. 
 The first 64 primes are used as constants, and the variables a..f are random values.
 
-The 'F' function is ((b ^ c) | (d ^ e)) & f
+The 'F' functions are: ((b ^ c) | (d ^ e)) & f
+                       ((b ^ c ^ d) & ~e) | f
+                       ((~b | c) ^ d) & (e ^ ~f)
+                       (b | c | d) ^ (e & f)
 
 b is set to the modulo 2^48 addition of a, F, the corresponding constant, a 64 bit chunk of the message, and f. This value is shifted left, by the corresponding number of bits in the table.
 
