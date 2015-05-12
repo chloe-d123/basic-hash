@@ -85,4 +85,4 @@ for i in range(len(msg_chunks)):
 	cycle(i%4, msg_chunks[i], constants[i%64], a0, b0, c0, d0, e0, f0, shifts[i%64])
 
 print "%x %x %x %x %x %x" % (a0, b0, c0, d0, e0, f0)
-print "%x" % (a0 + b0 + c0 + d0 + e0 + f0)
+print "hash %x" % (a0 + b0 + c0 + d0 + e0 + f0)
