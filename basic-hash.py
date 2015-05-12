@@ -46,9 +46,20 @@ for i in range(len(b_msg)):
 		temp = []
 print len(msg_chunks), 'chunks'
 
-# combination function: ((b ^ c) | (d ^ e)) & f
-def combination(b1, c1, d1, e1, f1):
-	return ( ((bool(b1) ^ bool(c1)) | (bool(d1) ^ bool(e1))) & bool(f1) )
+# combination functions: ((b ^ c) | (d ^ e)) & f
+#                        ((b ^ c ^ d) & ~e) | f
+#                        ((~b | c) ^ d) & (e ^ ~f)
+#                        (b | c | d) ^ (e & f)
+
+def combination(iteration, b1, c1, d1, e1, f1):
+    if iteration == 0:
+        return ( ((bool(b1) ^ bool(c1)) | (bool(d1) ^ bool(e1))) & bool(f1) )
+    elif iteration == 1:
+        return ( ((bool(b1) ^ bool(c1) ^ bool(d1)) & ~bool(e1)) | bool(f1) )
+    elif iteration == 2:
+        return ( ((~bool(b1) | bool(c1)) ^ bool(d1)) & (bool(e1) ^ ~bool(f1)) )
+    elif iteration == 3:
+        return ( (bool(b1) | bool(c1) | bool(d1)) ^ (bool(e1) & bool(f1)) )
 
 # final modulo addition. I don't know enough about modular arithmetic to say why 2^48 gives a 64-bit hash - but it does.
 def mod_add(a3, comb, const, chunk, f3):
@@ -60,10 +71,10 @@ def mod_add(a3, comb, const, chunk, f3):
 	return result
 
 # main cycle
-def cycle(msg_64, const, a2, b2, c2, d2, e2, f2, shift):
+def cycle(iteration, msg_64, const, a2, b2, c2, d2, e2, f2, shift):
 	global a0, b0, c0, d0, e0, f0
 
-	b0 = mod_add(a2, int(combination(b2, c2, d2, e2, f2)), const, int(''.join(msg_64), 16), f2) << shift
+	b0 = mod_add(a2, int(combination(iteration, b2, c2, d2, e2, f2)), const, int(''.join(msg_64), 16), f2) << shift
 	c0 = b2
 	d0 = c2
 	e0 = d2
@@ -71,7 +82,7 @@ def cycle(msg_64, const, a2, b2, c2, d2, e2, f2, shift):
 	a0 = f2
 
 for i in range(len(msg_chunks)):
-	cycle(msg_chunks[i], constants[i%64], a0, b0, c0, d0, e0, f0, shifts[i%64])
+	cycle(i%4, msg_chunks[i], constants[i%64], a0, b0, c0, d0, e0, f0, shifts[i%64])
 
 print "%x %x %x %x %x %x" % (a0, b0, c0, d0, e0, f0)
 print "%x" % (a0 + b0 + c0 + d0 + e0 + f0)
