@@ -33,12 +33,12 @@ b_msg = list(x.encode('hex') for x in msg)
 b_length = ''.join(list(bytes(len(b_msg)))[-2:])
 print b_length, 'length check byte'
 
-# pad byte array until % 64 == 0
+# pad byte array until % 256 == 0
 while len(b_msg) % 256 != 0:
 	b_msg.append(b_length)
 print len(b_msg), 'bytes'
 
-# split message into chunks of 64 bits (8 bytes)
+# split message into chunks of 32 bits (4 bytes)
 msg_chunks = []
 temp = []
 for i in range(len(b_msg)):
@@ -83,7 +83,7 @@ def cycle(iteration, msg_64, const, a2, b2, c2, d2, e2, f2, shift):
 	e0 = d2
 	f0 = e2
 
-	out.write("a: %x b: %x c: %x d: %x e: %x f: %x\n" % (a0, b0, c0, d0, e0, f0))
+	out.write("[a: %x] [b: %x] [c: %x] [d: %x] [e: %x] [f: %x]\n" % (a0, b0, c0, d0, e0, f0))
 
 for i in range(len(msg_chunks)):
 	cycle(i%64, msg_chunks[i], constants[i%64], a0, b0, c0, d0, e0, f0, shifts[i%64])
