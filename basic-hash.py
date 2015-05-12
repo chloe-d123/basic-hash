@@ -1,6 +1,8 @@
 # basic-hash.py
 import math, sys
 
+out = open('out.log', 'w')
+
 # first 64 primes
 constants = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 
 			59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 
@@ -32,7 +34,7 @@ b_length = ''.join(list(bytes(len(b_msg)))[-2:])
 print b_length, 'length check byte'
 
 # pad byte array until % 64 == 0
-while len(b_msg) % 64 != 0:
+while len(b_msg) % 256 != 0:
 	b_msg.append(b_length)
 print len(b_msg), 'bytes'
 
@@ -41,7 +43,7 @@ msg_chunks = []
 temp = []
 for i in range(len(b_msg)):
 	temp.append(b_msg[i])
-	if i % 4 == 3:						# 7 works. I don't know why.
+	if i % 4 == 3:
 		msg_chunks.append(temp)
 		temp = []
 print len(msg_chunks), 'chunks'
@@ -52,13 +54,13 @@ print len(msg_chunks), 'chunks'
 #                        (b | c | d) ^ (e & f)
 
 def combination(iteration, b1, c1, d1, e1, f1):
-    if iteration == 0:
+    if 0 <= iteration <= 15:
         return ( ((bool(b1) ^ bool(c1)) | (bool(d1) ^ bool(e1))) & bool(f1) )
-    elif iteration == 1:
+    elif 16 <= iteration <= 31:
         return ( ((bool(b1) ^ bool(c1) ^ bool(d1)) & ~bool(e1)) | bool(f1) )
-    elif iteration == 2:
+    elif 32 <= iteration <= 47:
         return ( ((~bool(b1) | bool(c1)) ^ bool(d1)) & (bool(e1) ^ ~bool(f1)) )
-    elif iteration == 3:
+    elif 48 <= iteration <= 63:
         return ( (bool(b1) | bool(c1) | bool(d1)) ^ (bool(e1) & bool(f1)) )
 
 # final modulo addition. I don't know enough about modular arithmetic to say why 2^48 gives a 64-bit hash - but it does.
@@ -74,15 +76,17 @@ def mod_add(a3, comb, const, chunk, f3):
 def cycle(iteration, msg_64, const, a2, b2, c2, d2, e2, f2, shift):
 	global a0, b0, c0, d0, e0, f0
 
-	b0 = mod_add(a2, int(combination(iteration, b2, c2, d2, e2, f2)), const, int(''.join(msg_64), 16), f2) << shift
+	a0 = f2
+	b0 = mod_add(a2, combination(iteration, b2, c2, d2, e2, f2), const, int(''.join(msg_64), 16), f2) << shift
 	c0 = b2
 	d0 = c2
 	e0 = d2
 	f0 = e2
-	a0 = f2
+
+	out.write("a: %x b: %x c: %x d: %x e: %x f: %x\n" % (a0, b0, c0, d0, e0, f0))
 
 for i in range(len(msg_chunks)):
-	cycle(i%4, msg_chunks[i], constants[i%64], a0, b0, c0, d0, e0, f0, shifts[i%64])
+	cycle(i%64, msg_chunks[i], constants[i%64], a0, b0, c0, d0, e0, f0, shifts[i%64])
 
 print "%x %x %x %x %x %x" % (a0, b0, c0, d0, e0, f0)
 print "hash %x" % (a0 + b0 + c0 + d0 + e0 + f0)

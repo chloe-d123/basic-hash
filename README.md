@@ -2,12 +2,12 @@
 
 My attempt at a hash algorithm, in python. Loosely based on MD5.
 
-Currently ~~nothing larger than 512 bytes can be hashed~~, and the 'avalanche' effect is ~~very~~ reasonably small.
+Currently 'avalanche' effect is fine for changes in length, but very small when swapping single bytes.
 
 The algorithm looks something like this:
 ```
 The data to encode is represented in an array of bytes, and padded until the length is 
-	divisible by 64.
+	divisible by 256.
 It is padded with the last two bytes of the value of its length.
 
 The bytearray is then split into chunks of 4 bytes/32 bits. 
