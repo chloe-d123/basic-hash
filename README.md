@@ -7,7 +7,7 @@ Currently ~~nothing larger than 512 bytes can be hashed~~, and the 'avalanche' e
 The algorithm looks something like this:
 ```
 The data to encode is represented in an array of bytes, and padded until the length is 
-divisible by 64.
+	divisible by 64.
 It is padded with the last two bytes of the value of its length.
 
 The bytearray is then split into chunks of 4 bytes/32 bits. 
@@ -19,13 +19,15 @@ The 'F' functions are: ((b ^ c) | (d ^ e)) & f
                        (b | c | d) ^ (e & f)
 
 b is set to the modulo 2^64 addition of a, F, the corresponding constant, 
-a 64 bit chunk of the message, and f. This value is shifted left, by the corresponding number of bits in the table.
+	a 64 bit chunk of the message, and f. This value is shifted left, by the 
+	corresponding number of bits in the table.
 
 Then set c = b, d = c, e = d, f = e, and a = f.
 
 After as many iterations as the data is long have occured, a..f are summed 
-and returned as a 20 char/80 bit hex number - this is the hash.
+	and returned as a 20 char/80 bit hex number - this is the hash.
 ```
 
-Usage: python basic-hash.py [file to hash]
+Usage: python basic-hash.py [file to hash].
+
 Currently, this is **slow**. Probably due to being written in python and my inability to optimise.
