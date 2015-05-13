@@ -16,16 +16,19 @@ shifts = [4, 15, 16, 8, 1, 12, 10, 3, 6, 11, 5, 13, 2, 14, 7, 9,
 		  13, 4, 7, 15, 8, 10, 3, 1, 12, 2, 16, 11, 9, 5, 6, 14]
 
 # initialise variables (random)
-a0 = 57
-b0 = 82
-c0 = 4
-d0 = 30
-e0 = 23
-f0 = 2
+a0 = 0x1246BF40 #57
+b0 = 0xF0E59CF4 #82
+c0 = 0x4D9A7B3B #4
+d0 = 0xBB4D0DD0 #30
+e0 = 0x6E5ABEED #23
+f0 = 0xBD2BEDE6 #2
 
-# message to hash
-f = open(sys.argv[1], 'rb')
-msg = f.read()
+# message to hash (-s for a string, otherwise a file)
+if sys.argv[1] == '-s':
+	msg = sys.argv[2]
+else:
+	f = open(sys.argv[1], 'rb')
+	msg = f.read()
 
 b_msg = list(x.encode('hex') for x in msg)
 
@@ -88,5 +91,6 @@ def cycle(iteration, msg_64, const, a2, b2, c2, d2, e2, f2, shift):
 for i in range(len(msg_chunks)):
 	cycle(i%64, msg_chunks[i], constants[i%64], a0, b0, c0, d0, e0, f0, shifts[i%64])
 
+out.close()
 print "%x %x %x %x %x %x" % (a0, b0, c0, d0, e0, f0)
 print "hash %x" % (a0 + b0 + c0 + d0 + e0 + f0)

@@ -28,6 +28,7 @@ After as many iterations as the data is long have occured, a..f are summed
 	and returned as a 20 char/80 bit hex number - this is the hash.
 ```
 
-Usage: python basic-hash.py [file to hash].
+Usage: python basic-hash.py [file to hash] **or**
+	   python basic-hash.py -s "string to hash"	
 
 Currently, this is **slow**. Probably due to being written in python and my inability to optimise.
