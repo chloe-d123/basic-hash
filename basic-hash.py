@@ -16,12 +16,12 @@ shifts = [4, 15, 16, 8, 1, 12, 10, 3, 6, 11, 5, 13, 2, 14, 7, 9,
 		  13, 4, 7, 15, 8, 10, 3, 1, 12, 2, 16, 11, 9, 5, 6, 14]
 
 # initialise variables (random)
-a0 = 0x1246BF40 #57
-b0 = 0xF0E59CF4 #82
-c0 = 0x4D9A7B3B #4
-d0 = 0xBB4D0DD0 #30
-e0 = 0x6E5ABEED #23
-f0 = 0xBD2BEDE6 #2
+a0 = 0x1246BF40
+b0 = 0xF0E59CF4
+c0 = 0x4D9A7B3B
+d0 = 0xBB4D0DD0
+e0 = 0x6E5ABEED
+f0 = 0xBD2BEDE6
 
 # message to hash (-s for a string, otherwise a file)
 if sys.argv[1] == '-s':
